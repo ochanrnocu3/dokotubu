@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -29,6 +30,11 @@ public class Main extends HttpServlet {
 		List<Mutter> mutterList = (List<Mutter>)application.getAttribute("mutterList");
 		
 		//取得できなかった場合はつぶやきリストを新規作成してアプリケーションスコープに保存
+		if (mutterList == null) {
+			mutterList = new ArrayList<>();
+			application.setAttribute("mutterList", mutterList);
+		}
+		
 		HttpSession session = request.getSession();
 		User loginUser = (User) session.getAttribute("loginUser");
 		
