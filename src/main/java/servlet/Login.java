@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.Account;
 import model.LoginLogic;
 import model.User;
 
@@ -24,21 +25,21 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// リクエストパラメータを取得
 		request.setCharacterEncoding("UTF-8");
-		String name =request.getParameter("name");
+		String userId =request.getParameter("userId");
 		String pass = request.getParameter("pass");
 		
 		//Userインスタンス（ユーザ情報）の生成
-		User user = new User(name,pass);
+		User user = new User(userId,pass);
 		
 		//ログイン処理
 		LoginLogic loginLogic = new LoginLogic();
-		boolean isLogin = loginLogic.execute(user);
+		Account account = loginLogic.execute(user);
 		
 		//ログイン成功時の処理
-		if (isLogin) {
+		if (account != null) {
 		//ユーザー情報をセッションスコープに保存
 			HttpSession session = request.getSession();
-			session.setAttribute("loginUser", user);
+			session.setAttribute("loginUser", account);
 		}
 		//ログイン結果画面にフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/loginResult.jsp");
