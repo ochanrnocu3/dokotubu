@@ -4,13 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>スッキリ商店</title>
+<title>どこつぶ</title>
 </head>
 <body>
-<form action="LoginServlet" method="post">
-ユーザーID:<input type="text" name="userId"><br>
-パスワード:<input type="password" name="pass"><br>
-<input type="submit" value="ログイン">
+<h1>どこつぶへようこそ</h1>
+<form action="Login" method="post">
+ユーザー名:<input type="text" name="name"> 
+パスワード:<input type="password" name="pass">
+<input type="submit" value="ログイン">  
 </form>
 </body>
 </html>
