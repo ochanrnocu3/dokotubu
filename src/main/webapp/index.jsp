@@ -7,11 +7,9 @@
 <title>どこつぶ</title>
 </head>
 <body>
-<h1>どこつぶへようこそ</h1>
-<form action="Login" method="post">
-ユーザー名:<input type="text" name="name"> 
-パスワード:<input type="password" name="pass">
-<input type="submit" value="ログイン">  
-</form>
+<ul>
+<li><a href="Login">ログイン</a></li>
+<li>ユーザー登録</li>
+</ul>
 </body>
 </html>

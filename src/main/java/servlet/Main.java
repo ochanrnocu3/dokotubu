@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.Account;
 import model.GetMutterListLogic;
 import model.Mutter;
 import model.PostMutterLogic;
-import model.User;
 
 /**
  * Servlet implementation class Main
@@ -42,7 +42,7 @@ public class Main extends HttpServlet {
 		
 		//ログインしているか確認するためセッションスコープからユーザー情報を取得
 		HttpSession session = request.getSession();
-		User loginUser = (User) session.getAttribute("loginUser");
+		Account loginUser = (Account) session.getAttribute("loginUser");
 		
 		if (loginUser == null) { //ログインしていない場合
 			//リダイレクト
@@ -66,7 +66,7 @@ public class Main extends HttpServlet {
 			
 			//セッションスコープに保存されたユーザー情報を取得
 			HttpSession session = request.getSession();
-			User loginUser = (User)session.getAttribute("loginUser");
+			Account loginUser = (Account)session.getAttribute("loginUser");
 			
 			//つぶやきをつぶやきリストに追加
 			Mutter mutter = new Mutter(loginUser.getName(),text);
