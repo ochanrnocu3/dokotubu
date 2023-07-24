@@ -4,12 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>どこつぶ</title>
+<title>ユーザー登録</title>
 </head>
 <body>
-<ul>
-<li><a href="Login">ログイン</a></li>
-<li><a href="RegisterUser">ユーザー登録</a></li>
-</ul>
+<p>登録完了しました</p>
+<a href="index.jsp">トップへ</a>
 </body>
 </html>
