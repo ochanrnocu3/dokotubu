@@ -16,7 +16,7 @@ Account registerUser = (Account) session.getAttribute("registerUser");
 ユーザーID:<%=registerUser.getUserId() %><br>
 パスワード:<%= registerUser.getPass() %><br>
 メールアドレス:<%= registerUser.getMail() %><br>
-名前:<%= registerUser.getName() %><br>
+姓名:<%= registerUser.getName() %><br>
 年齢:<%= registerUser.getAge() %>
 </p>
 <a href="RegisterUser">戻る</a>
