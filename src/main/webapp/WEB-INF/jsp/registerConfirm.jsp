@@ -8,10 +8,10 @@ Account registerUser = (Account) session.getAttribute("registerUser");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ユーザー登録</title>
+<title>どこつぶ</title>
 </head>
 <body>
-<p>下記のユーザを登録します</p>
+<p>下記のユーザーを登録します</p>
 <p>
 ユーザーID:<%=registerUser.getUserId() %><br>
 パスワード:<%= registerUser.getPass() %><br>

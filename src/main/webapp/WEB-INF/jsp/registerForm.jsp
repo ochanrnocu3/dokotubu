@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ユーザー登録</title>
+<title>どこつぶ</title>
 </head>
 <body>
+<p>ユーザー登録</p>
 <form aciton="RegisterUser" method="post">
 ユーザーID:<input type="text" required name="id" ><br>
 パスワード:<input type="password" required name="pass"><br>
