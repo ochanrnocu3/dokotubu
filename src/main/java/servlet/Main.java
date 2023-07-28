@@ -46,7 +46,7 @@ public class Main extends HttpServlet {
 		
 		if (loginUser == null) { //ログインしていない場合
 			//リダイレクト
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("WEB-INF/jsp/login.jsp");
 		} else { //ログイン済みの場合
 			//フォワード
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");

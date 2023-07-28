@@ -9,6 +9,6 @@
 <body>
 <h1>どこつぶログアウト</h1>
 <p>ログアウトしました</p>
-<a href="index.jsp">トップへ</a>
+<a href="Login">トップへ</a>
 </body>
 </html>
