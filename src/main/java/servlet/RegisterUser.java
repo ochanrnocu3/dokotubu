@@ -43,13 +43,20 @@ public class RegisterUser extends HttpServlet {
 			
 			//登録処理の呼び出し
 			RegisterUserLogic logic = new RegisterUserLogic();
-			logic.execute(registerUser);
+			boolean result = logic.execute(registerUser);
 			
+			if(result) {
+			//登録できたとき
 			//不要となったセッションスコープ内のインスタンスを削除
 			session.removeAttribute("registerUser");
 			
 			//登録後のフォワード先を設定
 			forwardPath = "WEB-INF/jsp/registerDone.jsp";
+			
+			}else {
+				forwardPath = "WEB-INF/jsp/registerForm.jsp";
+				request.setAttribute("errorMsg", "ユーザーIDはすでに登録されています。");
+			}
 		}
 		//設定されたフォワード先にフォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);

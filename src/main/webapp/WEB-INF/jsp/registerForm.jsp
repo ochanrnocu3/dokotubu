@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,9 @@
 </head>
 <body>
 <p>ユーザー登録</p>
+<c:if test="${not empty errorMsg}">
+  <p><c:out value="${errorMsg }" /></p>
+</c:if>
 <form aciton="RegisterUser" method="post">
 ユーザーID:<input type="text" required name="id" ><br>
 パスワード:<input type="password" required name="pass"><br>

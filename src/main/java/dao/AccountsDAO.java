@@ -84,8 +84,8 @@ public class AccountsDAO {
 		}
 //		return true;
 	}
-	public Account findByUserId(Account account) {
-//		Account account = null;
+	public int findByUserId(String userId) {
+		int cnt = 0;
 		// JBDCドライバを読み込む
 		try {
 			Class.forName("org.h2.Driver");
@@ -97,27 +97,22 @@ public class AccountsDAO {
 		try (Connection conn = DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS)){
 			
 			//SELECT文を準備
-			String sql = "SELECT USER_ID,PASS,MAIL,NAME,AGE FROM ACCOUNTS WHERE USER_ID = ?";
+		
+			String sql = "SELECT COUNT(*) as CNT FROM ACCOUNTS WHERE USER_ID = ?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setString(1, account.getUserId());
+			pStmt.setString(1, userId);
 			
 			//SELECTを実行し、結果表を取得
 			ResultSet rs = pStmt.executeQuery();
 			
-			//ユーザーが存在したらデータを取得
-			//そのユーザーを表すAccountインスタンスを生成
+			//ユーザーが存在したらtrueが返る
 			if(rs.next()) {
-				String userId = rs.getString("USER_ID");
-				String pass =rs.getString("PASS");
-				String mail =rs.getString("MAIL");
-				String name = rs.getString("NAME");
-				int age = rs.getInt("AGE");
-				account = new Account(userId,pass,mail,name,age);
+				cnt = rs.getInt("CNT");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			return cnt;
 		}
-		return account;
+		return cnt;
 	}
 }

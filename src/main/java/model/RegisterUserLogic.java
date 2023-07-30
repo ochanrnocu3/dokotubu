@@ -5,10 +5,18 @@ import dao.AccountsDAO;
 public class RegisterUserLogic {
 	public boolean execute(Account account){
 		AccountsDAO dao = new AccountsDAO();
-		dao.create(account);
-//		Account userId = dao.findByUserId(account);
+		int cnt = dao.findByUserId(account.getUserId());
 		
-	return true;
-}
+		if(cnt != 0){
+			
+		return false;
+			
+		}else {
+		
+		dao.create(account);
+		return true;
+		}
+		
+	}
 
 }
