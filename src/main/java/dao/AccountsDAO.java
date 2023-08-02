@@ -52,5 +52,67 @@ public class AccountsDAO {
 		}
 		return account;
 	}
-
+	public void create(Account account) {
+		// JBDCドライバを読み込む
+					try {
+						Class.forName("org.h2.Driver");
+					} catch (ClassNotFoundException e) {
+						throw new IllegalStateException(
+								"JBDCドライバを読み込めませんでした");
+					}
+					//データベースに接続
+					try (Connection conn = DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS)){
+						
+						//INSERT文を準備
+						String sql = "INSERT INTO ACCOUNTS(USER_ID,PASS,MAIL,NAME,AGE) VALUES(?,?,?,?,?)";
+						PreparedStatement pStmt = conn.prepareStatement(sql);
+						
+						//INSERT文中の[?}に使用する値を設定してSQL文を完成
+						pStmt.setString(1, account.getUserId());
+						pStmt.setString(2, account.getPass());
+						pStmt.setString(3, account.getMail());
+						pStmt.setString(4, account.getName());
+						pStmt.setInt(5, account.getAge());
+						//INSERT文を実行（resultには追加された行数が代入される）
+						int result = pStmt.executeUpdate();
+//						if (result != 1) {
+//							return false;
+//						}
+	    }catch (SQLException e) {
+			e.printStackTrace();
+//			return false;
+		}
+//		return true;
+	}
+	public int findByUserId(String userId) {
+		int cnt = 0;
+		// JBDCドライバを読み込む
+		try {
+			Class.forName("org.h2.Driver");
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException
+			("JBDCドライバを読み込めませんでした");
+		}
+		//データベースに接続
+		try (Connection conn = DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS)){
+			
+			//SELECT文を準備
+		
+			String sql = "SELECT COUNT(*) as CNT FROM ACCOUNTS WHERE USER_ID = ?";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setString(1, userId);
+			
+			//SELECTを実行し、結果表を取得
+			ResultSet rs = pStmt.executeQuery();
+			
+			//ユーザーが存在したらtrueが返る
+			if(rs.next()) {
+				cnt = rs.getInt("CNT");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return cnt;
+		}
+		return cnt;
+	}
 }

@@ -9,7 +9,7 @@
 <body>
 <ul>
 <li><a href="Login">ログイン</a></li>
-<li>ユーザー登録</li>
+<li><a href="RegisterUser">ユーザー登録</a></li>
 </ul>
 </body>
 </html>
