@@ -23,7 +23,10 @@
 </c:if>
 <c:forEach var="mutter" items="${mutterList}">
   <p><c:out value="${mutter.userName }" />:
-     <c:out value="${mutter.text }" /></p>
+     <c:out value="${mutter.text }" />
+ <c:if test="${loginUser.userId.equals(mutter.userId)}" >
+    <a href="DeleteMutter?id=${mutter.id }" onclick="return confirm('削除してよろしいですか？')">削除</a></p>
+  </c:if>
  </c:forEach >  
 </body>
 </html>
