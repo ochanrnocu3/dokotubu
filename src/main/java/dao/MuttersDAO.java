@@ -105,5 +105,33 @@ public class MuttersDAO {
 	    }catch (SQLException e) {
 			e.printStackTrace(); }
 	}
+		public void edit(Mutter mutter) {
+			// JBDCドライバを読み込む
+						try {
+							Class.forName("org.h2.Driver");
+						} catch (ClassNotFoundException e) {
+							throw new IllegalStateException(
+									"JBDCドライバを読み込めませんでした");
+						}
+						//データベースに接続
+						try (Connection conn = DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS)){
+							
+							//DUPDATE文を準備
+							
+							String sql = "UPDATE MUTTERS"
+									+"SET TEXT = ?"
+									+"where ID = ?";
+									
+									PreparedStatement pStmt = conn.prepareStatement(sql);
+							
+							//UPDATE文中の[?}に使用する値を設定してSQL文を完成
+						    pStmt.setString(1, mutter.getText());
+							pStmt.setInt(2, mutter.getId());
+													
+							//UPDATE文を実行（resultには追加された行数が代入される）
+							int result = pStmt.executeUpdate();
 
+		    }catch (SQLException e) {
+				e.printStackTrace(); }
+		}
 }
