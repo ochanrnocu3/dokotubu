@@ -9,6 +9,12 @@ public class Mutter implements Serializable {
 	private String userId;
 
 	public Mutter() {}
+	public Mutter(int id) {
+		this.id = id;
+	}
+	public Mutter(String text) {
+		this.text = text;
+	}
 	public Mutter(String userName,String userId,String text) {
 		this.userName = userName;
 		this.userId = userId;
