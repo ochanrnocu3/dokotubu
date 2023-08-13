@@ -25,7 +25,7 @@
   <p><c:out value="${mutter.userName }" />:
      <c:out value="${mutter.text }" />
  <c:if test="${loginUser.userId.equals(mutter.userId)}" >
-   <a href="EditMutter">編集</a>
+   <a href="EditMutter?id=${mutter.id }&text=${mutter.text}">編集</a>
    <a href="DeleteMutter?id=${mutter.id }" onclick="return confirm('削除してよろしいですか？')">削除</a>
   </c:if></p>
  </c:forEach >  

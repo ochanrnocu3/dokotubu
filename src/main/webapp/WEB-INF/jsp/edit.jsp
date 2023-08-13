@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+int id = (int)session.getAttribute("targetId");
+String text = (String)session.getAttribute("targetText");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +17,8 @@
   <p><c:out value="${errorMsg }" /></p>
 </c:if>
 <form action="EditMutter" method="post">
-<input type="text" name="text">
+<input type="hidden" name="id" value="<%= id %>">
+<input type="text" name="text" value="<%= text %>">
 <input type= "submit" value= "確認">
 </form>
 </body>

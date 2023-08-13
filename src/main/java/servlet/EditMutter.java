@@ -9,8 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import dao.MuttersDAO;
 import model.EditMutterLogic;
 import model.GetMutterListLogic;
 import model.Mutter;
@@ -27,18 +27,19 @@ public class EditMutter extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.setCharacterEncoding("UTF-8");
+		String text = request.getParameter("text");
 		int id=Integer.parseInt(request.getParameter("id"));
 		
 		if(id != 0) {
-			Mutter mutter = new Mutter(id);
-			MuttersDAO dao=new MuttersDAO();
-			dao.edit(mutter);
-			
-		} 
-		//編集画面にフォワード
-				RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/edit.jsp");
-				dispatcher.forward(request, response);
+			HttpSession session = request.getSession();
+			session.setAttribute("targetId", id);
+			session.setAttribute("targetText", text);
+		
 	}
+		//編集画面にフォワード
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/edit.jsp");
+		dispatcher.forward(request, response);}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -47,17 +48,21 @@ public class EditMutter extends HttpServlet {
 		// リクエストパラメータを取得
 				request.setCharacterEncoding("UTF-8");
 				String text = request.getParameter("text");
-				
+				int id=Integer.parseInt(request.getParameter("id"));
 				
 				//入力値チェック
-				if(text != null && text.length() !=0) {
-					Mutter mutter = new Mutter(text);
+				if(text != null && text.length() !=0 && id != 0) {
+									
 					EditMutterLogic editMutterLogic = new EditMutterLogic();
-					editMutterLogic.execute(mutter);
+					editMutterLogic.execute(id,text);
+					
 											
 				} else {
 					//エラーメッセージをリクエストスコープに保存
 					request.setAttribute("errorMsg", "つぶやきが入力されていません");
+					//編集画面にフォワード
+					RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/edit.jsp");
+					dispatcher.forward(request, response);
 				}
 				
 				//つぶやきリストを取得してリクエストスコープに保存

@@ -3,8 +3,9 @@ package model;
 import dao.MuttersDAO;
 
 public class EditMutterLogic {
-	public void execute(Mutter mutter) {
+	public void execute(int id,String text) {
 		MuttersDAO dao = new MuttersDAO();
-		dao.edit(mutter);
+		dao.edit(id,text);
 	}
+
 }
