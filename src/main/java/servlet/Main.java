@@ -3,6 +3,7 @@ package servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Account;
+import model.GetCommentLogic;
 import model.GetMutterListLogic;
 import model.Mutter;
 import model.PostMutterLogic;
@@ -30,16 +32,12 @@ public class Main extends HttpServlet {
 		List<Mutter> mutterList = getMutterListLogic.execute();
 		request.setAttribute("mutterList", mutterList);
 		
-		// つぶやきリストをアプリケーションスコープから取得
-//		ServletContext application = this.getServletContext();
-//		List<Mutter> mutterList = (List<Mutter>)application.getAttribute("mutterList");
-//		
-//		//取得できなかった場合はつぶやきリストを新規作成してアプリケーションスコープに保存
-//		if (mutterList == null) {
-//			mutterList = new ArrayList<>();
-//			application.setAttribute("mutterList", mutterList);
-//		}
+		//コメント件数を取得してリクエストスコープに保存
+		GetCommentLogic getCommentLogic = new GetCommentLogic();
+		Map<Integer,Integer> comments = getCommentLogic.count();
+		request.setAttribute("comments", comments);
 		
+				
 		//ログインしているか確認するためセッションスコープからユーザー情報を取得
 		HttpSession session = request.getSession();
 		Account loginUser = (Account) session.getAttribute("loginUser");
@@ -60,9 +58,6 @@ public class Main extends HttpServlet {
 		
 		//入力値チェック
 		if (text != null && text.length() !=0) {
-			//アプリケーションスコープに保存されたつぶやきリストを取得
-//			ServletContext application = this.getServletContext();
-//			List<Mutter> mutterList = (List<Mutter>)application.getAttribute("mutterList");
 			
 			//セッションスコープに保存されたユーザー情報を取得
 			HttpSession session = request.getSession();
@@ -74,8 +69,7 @@ public class Main extends HttpServlet {
 //			postMutterLogic.execute(mutter, mutterList);
 			postMutterLogic.execute(mutter);
 			
-			//アプリケーションスコープにつぶやきリストを保存
-//			application.setAttribute("mutterList", mutterList);
+			
 		} else {
 			//エラーメッセージをリクエストスコープに保存
 			request.setAttribute("errorMsg", "つぶやきが入力されていません");
