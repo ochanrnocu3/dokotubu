@@ -105,7 +105,7 @@ public class MuttersDAO {
 	    }catch (SQLException e) {
 			e.printStackTrace(); }
 	}
-		public void edit(Mutter mutter) {
+		public void edit(int id,String text) {
 			// JBDCドライバを読み込む
 						try {
 							Class.forName("org.h2.Driver");
@@ -118,15 +118,15 @@ public class MuttersDAO {
 							
 							//UPDATE文を準備
 							
-							String sql = "UPDATE MUTTERS"
-									+"SET TEXT = ?"
+							String sql = "UPDATE MUTTERS "
+									+"SET TEXT = ? "
 									+"where ID = ?";
 									
 									PreparedStatement pStmt = conn.prepareStatement(sql);
 							
 							//UPDATE文中の[?}に使用する値を設定してSQL文を完成
-						    pStmt.setString(1,mutter.getText());
-							pStmt.setInt(2, mutter.getId());
+						    pStmt.setString(1,text);
+							pStmt.setInt(2, id);
 													
 							//UPDATE文を実行（resultには追加された行数が代入される）
 							int result = pStmt.executeUpdate();
