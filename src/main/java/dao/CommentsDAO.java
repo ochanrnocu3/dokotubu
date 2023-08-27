@@ -19,8 +19,9 @@ public class CommentsDAO {
 		private final String DB_USER = "sa";
 		private final String DB_PASS = "";
 
-		public List<Comment> findAll() {
+		public List<Comment> find(int targetId) {
 			List<Comment> commentList = new ArrayList<>();
+			
 			// JBDCドライバを読み込む
 			try {
 				Class.forName("org.h2.Driver");
@@ -32,12 +33,15 @@ public class CommentsDAO {
 			try (Connection conn = DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS)){
 				
 				//SELECT文を準備
-				String sql = "SELECT C.ID as ID,C.MUTTERS_ID as MUTTERS_ID,C.USER_ID as USER_ID,C.COMMENT as COMMENT,A.NAME as NAME FROM COMMENTS C JOIN ACCOUNTS A ON C.USER_ID = A.USER_ID ORDER BY C.ID DESC";
+				String sql = "SELECT C.ID as ID,C.MUTTERS_ID as MUTTERS_ID,C.USER_ID as USER_ID,C.COMMENT as COMMENT,A.NAME as NAME FROM COMMENTS C JOIN ACCOUNTS A ON C.USER_ID = A.USER_ID WHERE C.MUTTERS_ID = ? ORDER BY C.ID DESC";
 				PreparedStatement pStmt = conn.prepareStatement(sql);
-				
+				//SELECT文中の[?}に使用する値を設定してSQL文を完成
+				pStmt.setInt(1, targetId);
+								
 				//SELECTを実行し、結果表を取得
 				ResultSet rs = pStmt.executeQuery();
 				
+						
 				//結果表に格納されたレコードの内容をArrayListに格納
 				while (rs.next()) {
 					int id = rs.getInt("ID");

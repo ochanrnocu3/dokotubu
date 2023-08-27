@@ -28,10 +28,11 @@
    <a href="EditMutter?id=${mutter.id }&text=${mutter.text}">編集</a>
    <a href="DeleteMutter?id=${mutter.id }" onclick="return confirm('削除してよろしいですか？')">削除</a>
   </c:if></p>
-  <a href="CmtMain?id=${mutter.id }">コメント</a>
- </c:forEach > 
- <c:forEach var="cnt" items="${comments}">
-  <c:out value="${cnt[mutterId]}"/>：件
- </c:forEach >  
+  <a href="CmtMain?id=${mutter.id }">コメント</a>：
+ <c:choose>
+ <c:when test="${comments[mutter.id]>0}"><c:out value="${comments[mutter.id]}"/>件 </c:when>
+ <c:otherwise>0件</c:otherwise>
+  </c:choose>
+</c:forEach > 
 </body>
 </html>

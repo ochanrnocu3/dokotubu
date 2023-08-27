@@ -35,7 +35,7 @@ public class CmtMain extends HttpServlet {
 		
 		//コメントリストを取得してリクエストスコープに保存
 				GetCommentLogic getCommentLogic = new GetCommentLogic();
-				List<Comment> commentList = getCommentLogic.execute();
+				List<Comment> commentList = getCommentLogic.execute(mutterId);
 				request.setAttribute("commentList", commentList);
 				
 				
@@ -76,7 +76,7 @@ public class CmtMain extends HttpServlet {
 		
 		//つぶやきリストを取得してリクエストスコープに保存
 		GetCommentLogic getCommentLogic = new GetCommentLogic();
-		List<Comment> commentList = getCommentLogic.execute();
+		List<Comment> commentList = getCommentLogic.execute(mutterId);
 		request.setAttribute("commentList", commentList);
 		
 		//コメント画面にフォワード

@@ -6,9 +6,9 @@ import java.util.Map;
 import dao.CommentsDAO;
 
 public class GetCommentLogic {
-	public List<Comment> execute() {
+	public List<Comment> execute(int targetId) {
 		CommentsDAO dao = new CommentsDAO();
-		List<Comment> commentList = dao.findAll();
+		List<Comment> commentList = dao.find(targetId);
 		return commentList;
 	}
 	public Map<Integer,Integer> count() {

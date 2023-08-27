@@ -15,7 +15,7 @@ int id = (int)session.getAttribute("targetMutterId");
 <c:forEach var="comment" items="${commentList}">
   <p><c:out value="${comment.name}" />:
      <c:out value="${comment.comment }" />
- </c:forEach > 
+ </c:forEach >
 <form action="CmtMain" method="post">
 <input type="hidden" name="id" value="<%= id %>">
 <input type="text" name="comment">
