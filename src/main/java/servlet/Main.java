@@ -17,6 +17,7 @@ import model.Account;
 import model.GetCommentLogic;
 import model.GetMutterListLogic;
 import model.Mutter;
+import model.PostGoodLogic;
 import model.PostMutterLogic;
 
 /**
@@ -27,6 +28,7 @@ public class Main extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+				
 		//つぶやきリストを取得してリクエストスコープに保存
 		GetMutterListLogic getMutterListLogic = new GetMutterListLogic();
 		List<Mutter> mutterList = getMutterListLogic.execute();
@@ -37,11 +39,17 @@ public class Main extends HttpServlet {
 		Map<Integer,Integer> comments = getCommentLogic.count();
 		request.setAttribute("comments", comments);
 		
-				
+		//いいね！件数を取得してリクエストスコープに保存
+		PostGoodLogic postGoodLogic = new PostGoodLogic();
+		Map<Integer,Integer> gds = postGoodLogic.count();
+		request.setAttribute("good", gds);
+		
+		
 		//ログインしているか確認するためセッションスコープからユーザー情報を取得
 		HttpSession session = request.getSession();
 		Account loginUser = (Account) session.getAttribute("loginUser");
-		
+			
+				
 		if (loginUser == null) { //ログインしていない場合
 			//リダイレクト
 			response.sendRedirect("WEB-INF/jsp/login.jsp");

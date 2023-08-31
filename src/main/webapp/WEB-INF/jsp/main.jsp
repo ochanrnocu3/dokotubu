@@ -27,7 +27,12 @@
  <c:if test="${loginUser.userId.equals(mutter.userId)}" >
    <a href="EditMutter?id=${mutter.id }&text=${mutter.text}">編集</a>
    <a href="DeleteMutter?id=${mutter.id }" onclick="return confirm('削除してよろしいですか？')">削除</a>
-  </c:if></p>
+  </c:if>
+<form action="GoodMain" method="post">
+<input type="hidden" name="id" value="${mutter.id }">
+<input type= "submit" value= "いいね！">
+<a href="GoodMain?id=${mutter.id }" style="text-decoration:none;"> ${good[mutter.id]}人</a>
+  </p>
   <a href="CmtMain?id=${mutter.id }">コメント</a>：
  <c:choose>
  <c:when test="${comments[mutter.id]>0}"><c:out value="${comments[mutter.id]}"/>件 </c:when>
