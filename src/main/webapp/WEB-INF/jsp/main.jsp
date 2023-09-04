@@ -28,14 +28,15 @@
    <a href="EditMutter?id=${mutter.id }&text=${mutter.text}">編集</a>
    <a href="DeleteMutter?id=${mutter.id }" onclick="return confirm('削除してよろしいですか？')">削除</a>
   </c:if>
-<form action="GoodMain" method="post">
-<input type="hidden" name="id" value="${mutter.id }">
-<input type= "submit" value= "いいね！">
-<a href="GoodMain?id=${mutter.id }" style="text-decoration:none;"> ${good[mutter.id]}人</a>
+<c:choose>
+<c:when test="${push[mutter.id] eq 1}">いいね！ </c:when>
+<c:otherwise><a href="GoodPost?id=${mutter.id }">いいね！</a></c:otherwise>
+</c:choose>
+<a href="GoodGet?id=${mutter.id }" style="text-decoration:none;"> ${good[mutter.id]}人</a>
   </p>
   <a href="CmtMain?id=${mutter.id }">コメント</a>：
  <c:choose>
- <c:when test="${comments[mutter.id]>0}"><c:out value="${comments[mutter.id]}"/>件 </c:when>
+ <c:when test="${comments[mutter.id] gt 0}"><c:out value="${comments[mutter.id]}"/>件 </c:when>
  <c:otherwise>0件</c:otherwise>
   </c:choose>
 </c:forEach > 

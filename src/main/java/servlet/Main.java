@@ -29,6 +29,63 @@ public class Main extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				
+		//ログインしているか確認するためセッションスコープからユーザー情報を取得
+		HttpSession session = request.getSession();
+		Account loginUser = (Account) session.getAttribute("loginUser");		
+			
+				
+		if (loginUser == null) { //ログインしていない場合
+			//リダイレクト
+			response.sendRedirect("WEB-INF/jsp/login.jsp");
+		} else { //ログイン済みの場合
+			
+			//つぶやきリストを取得してリクエストスコープに保存
+			GetMutterListLogic getMutterListLogic = new GetMutterListLogic();
+			List<Mutter> mutterList = getMutterListLogic.execute();
+			request.setAttribute("mutterList", mutterList);
+			
+			//コメント件数を取得してリクエストスコープに保存
+			GetCommentLogic getCommentLogic = new GetCommentLogic();
+			Map<Integer,Integer> comments = getCommentLogic.count();
+			request.setAttribute("comments", comments);
+			
+			//いいね！件数を取得してリクエストスコープに保存
+			PostGoodLogic postGoodLogic = new PostGoodLogic();
+			Map<Integer,Integer> gds = postGoodLogic.count();
+			request.setAttribute("good", gds);
+			
+			//ユーザー毎のいいね！カウント
+			Map<Integer, Integer> push = postGoodLogic.count2(loginUser.getUserId());
+			request.setAttribute("push", push);
+			
+			//フォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");
+			dispatcher.forward(request, response);
+		}
+	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// リクエストパラメータを取得
+		request.setCharacterEncoding("UTF-8");
+		String text = request.getParameter("text");
+		
+		//セッションスコープに保存されたユーザー情報を取得
+		HttpSession session = request.getSession();
+		Account loginUser = (Account)session.getAttribute("loginUser");
+		
+		//入力値チェック
+		if (text != null && text.length() !=0) {
+			
+			//つぶやきをつぶやきリストに追加
+			Mutter mutter = new Mutter(loginUser.getName(),loginUser.getUserId(),text);
+			PostMutterLogic postMutterLogic = new PostMutterLogic();
+			postMutterLogic.execute(mutter);
+			
+			
+		} else {
+			//エラーメッセージをリクエストスコープに保存
+			request.setAttribute("errorMsg", "つぶやきが入力されていません");
+		}
+		
 		//つぶやきリストを取得してリクエストスコープに保存
 		GetMutterListLogic getMutterListLogic = new GetMutterListLogic();
 		List<Mutter> mutterList = getMutterListLogic.execute();
@@ -44,49 +101,9 @@ public class Main extends HttpServlet {
 		Map<Integer,Integer> gds = postGoodLogic.count();
 		request.setAttribute("good", gds);
 		
-		
-		//ログインしているか確認するためセッションスコープからユーザー情報を取得
-		HttpSession session = request.getSession();
-		Account loginUser = (Account) session.getAttribute("loginUser");
-			
-				
-		if (loginUser == null) { //ログインしていない場合
-			//リダイレクト
-			response.sendRedirect("WEB-INF/jsp/login.jsp");
-		} else { //ログイン済みの場合
-			//フォワード
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");
-			dispatcher.forward(request, response);
-		}
-	}
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// リクエストパラメータを取得
-		request.setCharacterEncoding("UTF-8");
-		String text = request.getParameter("text");
-		
-		//入力値チェック
-		if (text != null && text.length() !=0) {
-			
-			//セッションスコープに保存されたユーザー情報を取得
-			HttpSession session = request.getSession();
-			Account loginUser = (Account)session.getAttribute("loginUser");
-			
-			//つぶやきをつぶやきリストに追加
-			Mutter mutter = new Mutter(loginUser.getName(),loginUser.getUserId(),text);
-			PostMutterLogic postMutterLogic = new PostMutterLogic();
-//			postMutterLogic.execute(mutter, mutterList);
-			postMutterLogic.execute(mutter);
-			
-			
-		} else {
-			//エラーメッセージをリクエストスコープに保存
-			request.setAttribute("errorMsg", "つぶやきが入力されていません");
-		}
-		
-		//つぶやきリストを取得してリクエストスコープに保存
-		GetMutterListLogic getMutterListLogic = new GetMutterListLogic();
-		List<Mutter> mutterList = getMutterListLogic.execute();
-		request.setAttribute("mutterList", mutterList);
+		//ユーザー毎のいいね！カウント
+		Map<Integer, Integer> push = postGoodLogic.count2(loginUser.getUserId());
+		request.setAttribute("push", push);
 		
 		//メイン画面にフォワード
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");

@@ -74,7 +74,7 @@ public class CmtMain extends HttpServlet {
 			request.setAttribute("errorMsg", "コメントが入力されていません");
 		}
 		
-		//つぶやきリストを取得してリクエストスコープに保存
+		//コメントリストを取得してリクエストスコープに保存
 		GetCommentLogic getCommentLogic = new GetCommentLogic();
 		List<Comment> commentList = getCommentLogic.execute(mutterId);
 		request.setAttribute("commentList", commentList);

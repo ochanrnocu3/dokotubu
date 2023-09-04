@@ -16,4 +16,9 @@ public class PostGoodLogic {
 		Map<Integer,Integer> gds = dao.countGood();
 		return gds;
 	}
+	public Map<Integer,Integer> count2(String userId) {
+		GoodDAO dao = new GoodDAO();
+		Map<Integer, Integer> push = dao.countPush(userId);
+		return push;
+	}	
 }
