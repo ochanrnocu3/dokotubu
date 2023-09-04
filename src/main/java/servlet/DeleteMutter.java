@@ -23,6 +23,7 @@ public class DeleteMutter extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int id=Integer.parseInt(request.getParameter("id"));
+		
 		if(id != 0) {
 			MuttersDAO dao=new MuttersDAO();
 			dao.delete(id);
